@@ -1,0 +1,71 @@
+* {
+    box-sizing: border-box
+  }
+
+/* Main Login Page Styling */
+.loginPage {
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    height: 100vh;
+    background-color: #f2f5f7;          /* Soft background color for comfort */
+    display: flex;                      /* Center form both vertically and horizontally */
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+/* Login Form Box Styling */
+.loginForm {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color:#ffffff;          /* White background for clean look */
+    padding: 2rem;                      /* Adds padding for spacing */
+    border-radius: 8px;                 /* Rounded corners for modern look */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    width: 100%;
+    max-width: 400px;                   /* Responsive max-width for mobile */
+}
+
+/* Form Element Styling (Optional) */
+.loginForm input[type="email"],
+.loginForm input[type="password"],
+.loginForm button {
+    width: 100%;                        /* Full width for easy access */
+    padding: 12px;                      /* Spacing inside input fields */
+    margin-top: 10px;                   /* Space between each field */
+    font-size: 1rem;                    /* Comfortable font size */
+    border: 1px solid #d1d5db;          /* Light border for input fields */
+    border-radius: 6px;                 /* Consistent rounded edges */
+}
+
+/* Input Focus Styling */
+.loginForm input[type="email"]:focus,
+.loginForm input[type="password"]:focus {
+    border-color: #4CAF50;              /* Highlighted border on focus */
+    outline: none;
+}
+
+/* Submit Button Styling */
+.loginForm button {
+    background-color: #4CAF50;          /* Eye-catching green button */
+    color: white;                       /* White text for contrast */
+    font-weight: bold;                  /* Bold font for importance */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.loginForm button:hover {
+    background-color: #45a049;          /* Slightly darker green on hover */
+}
+
+.Login {
+        text-align: center;
+        font-weight: bold;           /* Makes the text bold */
+        font-size: 1.5em;              /* Increases font size for emphasis */
+        color: #333;                 /* Dark color for visibility */
+        display: flex;               /* Flex display for individual word styling */
+        gap: 0.5em;                  /* Adds space between words */
+        animation: reveal 1s ease forwards; /* Animation for showing one word at a time */
+}
+   
+
+    
