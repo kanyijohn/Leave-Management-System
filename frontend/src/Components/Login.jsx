@@ -2,7 +2,7 @@ import React from 'react'
 import './style.css'
 import axios from 'axios' /* communicates with the backend(server side) */
 
-const login = () => {
+const Login = () => {
 
     /*handling inputs*/
     const [values, setValues] = useState({
@@ -50,4 +50,4 @@ const login = () => {
   )
 }
 
-export default login
+export default Login
