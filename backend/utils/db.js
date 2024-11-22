@@ -1,5 +1,4 @@
 /*connection with mysql database-  the leavems database*/
-
 import mysql from 'mysql'
 
 const con = mysql.createConnection({
@@ -18,3 +17,4 @@ con.connect(function(err) {
 })
 
 export default con;
+
