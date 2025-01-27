@@ -1,6 +1,8 @@
 import express from "express";
-import con from "../utils/db.js"
-import jwt from "jsonwebtoken"
+import con from "../utils/db.js";
+import jwt from "jsonwebtoken";
+
+
 
 
 const router = express.Router();
@@ -24,5 +26,22 @@ router.post("/adminlogin", (req, res) => {
     
     });
 });
+
+router.get('/department', (req, res) => {
+  const sql = "SELECT * FROM department";
+  con.query(sql, (err, result) => {
+      if(err) return res.json({Status: false, Error: "Query Error"})
+      return res.json({Status: true, Result: result})
+  })
+})
+
+
+router.post('/add_department', (req, res) => {
+  const sql = "INSERT INTO department (`department`) VALUES (?)"
+  con.query(sql, [req.body.department], (err, _result) => {
+      if(err) return res.json({Status: false, Error: "Query Error"})
+      return res.json({Status: true})
+  })
+})
 
 export { router as adminRouter };
