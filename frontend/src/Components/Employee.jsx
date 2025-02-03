@@ -40,27 +40,21 @@ const Employee = () => {
         <table className="table">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Image</th>
+              <th>Full Name</th>
               <th>Email</th>
-              <th>Address</th>
-              <th>Salary</th>
-              <th>Action</th>
+              <th>Password</th>
+              <th>Phone Number</th>
+              <th>Department</th>
             </tr>
           </thead>
           <tbody>
             {employee.map((e) => (
               <tr>
-                <td>{e.name}</td>
-                <td>
-                  <img
-                    src={`http://localhost:3000/Images/` + e.image}
-                    className="employee_image"
-                  />
-                </td>
+                <td>{e.fullname}</td>
                 <td>{e.email}</td>
-                <td>{e.address}</td>
-                <td>{e.salary}</td>
+                <td>{e.password}</td>
+                <td>{e.phonenumber}</td>
+                <td>{e.department}</td>
                 <td>
                   <Link
                     to={`/dashboard/edit_employee/` + e.id}
