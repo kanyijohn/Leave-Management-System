@@ -28,7 +28,7 @@ router.post("/adminlogin", (req, res) => {
     });
 });
 
-router.get('/department', (req, res) => {
+router.get('/department', (_req, res) => {
   const sql = "SELECT * FROM department";
   con.query(sql, (err, result) => {
       if(err) return res.json({Status: false, Error: "Query Error"})
@@ -57,7 +57,7 @@ router.post('/add_employee', (req, res) => {
           req.body.phone_number,
           req.body.department_id
       ]
-      con.query(sql, [values], (err, result) => {
+      con.query(sql, [values], (err, _result) => {
           if(err) return res.json({Status: false, Error: err})
           return res.json({Status: true})
       })

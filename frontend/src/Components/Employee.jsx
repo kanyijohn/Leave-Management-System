@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 
 const Employee = () => {
   const [employee, setEmployee] = useState([]);
@@ -50,11 +50,11 @@ const Employee = () => {
           <tbody>
             {employee.map((e) => (
               <tr>
-                <td>{e.fullname}</td>
+                <td>{e.full_name}</td>
                 <td>{e.email}</td>
                 <td>{e.password}</td>
-                <td>{e.phonenumber}</td>
-                <td>{e.department}</td>
+                <td>{e.phone_number}</td>
+                
                 <td>
                   <Link
                     to={`/dashboard/edit_employee/` + e.id}

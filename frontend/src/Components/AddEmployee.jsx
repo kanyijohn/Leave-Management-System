@@ -112,7 +112,7 @@ const AddEmployee = () => {
               Department
             </label>
             <select name="department" id="department" className="form-select"
-                onChange={(e) => setEmployee({...employee, department: e.target.value})}>
+                onChange={(e) => setEmployee({...employee, department_id: e.target.value})}>
               {department.map((c) => {
                 return <option value={c.id}>{c.department}</option>;
               })}
