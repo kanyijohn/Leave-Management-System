@@ -110,7 +110,7 @@ const AddEmployee = () => {
           </div>
           
           <div className="col-12">
-            <label for="category" className="form-label">
+            <label for="department" className="form-label">
               Department
             </label>
             <select name="department" id="department" className="form-select"
