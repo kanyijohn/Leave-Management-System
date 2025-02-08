@@ -9,10 +9,9 @@ const AddEmployee = () => {
     password: "",
     phone: "",
     department_id: "",
-    
   });
   const [department, setDepartment] = useState([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -28,24 +27,18 @@ const AddEmployee = () => {
   }, []);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    const formData = new FormData();
-    formData.append('name', employee.name);
-    formData.append('email', employee.email);
-    formData.append('password', employee.password);
-    formData.append('phone', employee.phone);
-    formData.append('department_id', employee.department_id);
-
-    axios.post('http://localhost:3000/auth/add_employee', formData)
-    .then(result => {
-        if(result.data.Status) {
-            navigate('/dashboard/employee')
+    e.preventDefault();
+    axios
+      .post("http://localhost:3000/auth/add_employee", employee)
+      .then((result) => {
+        if (result.data.Status) {
+          navigate("/dashboard/employee");
         } else {
-            alert(result.data.Error)
+          alert(result.data.Error);
         }
-    })
-    .catch(err => console.log(err))
-  }
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className="d-flex justify-content-center align-items-center mt-3">
@@ -53,7 +46,7 @@ const AddEmployee = () => {
         <h3 className="text-center">Add Employee</h3>
         <form className="row g-1" onSubmit={handleSubmit}>
           <div className="col-12">
-            <label for="inputName" className="form-label">
+            <label htmlFor="inputName" className="form-label">
               Name
             </label>
             <input
@@ -64,10 +57,11 @@ const AddEmployee = () => {
               onChange={(e) =>
                 setEmployee({ ...employee, name: e.target.value })
               }
+              value={employee.name} // Added value attribute
             />
           </div>
           <div className="col-12">
-            <label for="inputEmail4" className="form-label">
+            <label htmlFor="inputEmail4" className="form-label">
               Email
             </label>
             <input
@@ -79,10 +73,11 @@ const AddEmployee = () => {
               onChange={(e) =>
                 setEmployee({ ...employee, email: e.target.value })
               }
+              value={employee.email} // Added value attribute
             />
           </div>
           <div className="col-12">
-            <label for="inputPassword4" className="form-label">
+            <label htmlFor="inputPassword4" className="form-label">
               Password
             </label>
             <input
@@ -93,34 +88,46 @@ const AddEmployee = () => {
               onChange={(e) =>
                 setEmployee({ ...employee, password: e.target.value })
               }
+              value={employee.password} // Added value attribute
             />
-            <label for="inputPhone" className="form-label">
+          </div>
+          <div className="col-12">
+            <label htmlFor="inputPhone" className="form-label">
               Phone
             </label>
             <input
               type="text"
               className="form-control rounded-0"
-              id="inputSalary"
+              id="inputPhone"
               placeholder="Enter Phone Number"
               autoComplete="off"
               onChange={(e) =>
                 setEmployee({ ...employee, phone: e.target.value })
               }
+              value={employee.phone} // Added value attribute
             />
           </div>
-          
           <div className="col-12">
-            <label for="department" className="form-label">
+            <label htmlFor="department" className="form-label">
               Department
             </label>
-            <select name="department" id="department" className="form-select"
-                onChange={(e) => setEmployee({...employee, department_id: e.target.value})}>
-              {department.map((c) => {
-                return <option value={c.id}>{c.department}</option>;
-              })}
+            <select
+              name="department"
+              id="department"
+              className="form-select"
+              onChange={(e) =>
+                setEmployee({ ...employee, department_id: e.target.value })
+              }
+              value={employee.department_id} // Added value attribute
+            >
+              <option value="">Select Department</option>
+              {department.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.department}
+                </option>
+              ))}
             </select>
           </div>
-          
           <div className="col-12">
             <button type="submit" className="btn btn-primary w-100">
               Add Employee

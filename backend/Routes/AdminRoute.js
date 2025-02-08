@@ -33,37 +33,52 @@ router.get('/department', (req, res) => {
   con.query(sql, (err, result) => {
       if(err) return res.json({Status: false, Error: "Query Error"})
       return res.json({Status: true, Result: result})
-  })
-})
+  });
+});
 
 router.post('/add_department', (req, res) => {
   const sql = "INSERT INTO department (`department`) VALUES (?)"
   con.query(sql, [req.body.department], (err, result) => {
       if(err) return res.json({Status: false, Error: "Query Error"})
       return res.json({Status: true})
-  })
-})
+  });
+});
 
 router.post('/add_employee', (req, res) => {
-  const sql = `INSERT INTO employee 
-  (name,email,password, phone, department_id) 
-  VALUES (?)`;
-  bcrypt.hash(req.body.password, 10, (err, hash) => {
+  const { name, email, password, phone, department_id } = req.body;
+
+  // Validate required fields
+  if (!name || !email || !password || !phone || !department_id) {
+      return res.json({ Status: false, Error: "All fields are required" });
+  }
+
+  // Hash the password before storing it in the database
+  bcrypt.hash(password, 10, (err, hash) => {
+      if (err) {
+          console.error("Password Hashing Error: ", err);
+          return res.json({ Status: false, Error: "Password Hashing Error", Details: err });
+      }
+
+      const sql = `INSERT INTO employee (name, email, password, phone, department_id) VALUES (?, ?, ?, ?, ?)`;
+      const values = [name, email, hash, phone, department_id];
+
+      con.query(sql, values, (err, result) => {
+          if (err) {
+              console.error("SQL Error: ", err);
+              return res.json({ Status: false, Error: "Query Error", Details: err });
+          }
+          return res.json({ Status: true });
+        });
+    });
+});
+
+router.get('/employee', (req, res) => {
+  const sql = "SELECT * FROM employee";
+  con.query(sql, (err, result) => {
       if(err) return res.json({Status: false, Error: "Query Error"})
-      const values = [
-          req.body.name,
-          req.body.email,
-          hash,
-          req.body.phone,
-          req.body.category_id
-      ]
-      con.query(sql, [values], (err, result) => {
-          if(err) return res.json({Status: false, Error: err})
-          return res.json({Status: true})
-      })
+      return res.json({Status: true, Result: result})
   })
 })
-
 
 
 export { router as adminRouter };
