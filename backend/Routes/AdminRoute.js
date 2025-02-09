@@ -119,5 +119,11 @@ router.delete('/delete_employee/:id', (req, res) => {
   })
 })
 
+router.get('/logout', (req, res) => {
+  res.clearCookie('token')
+  return res.json({Status: true})
+})
+
+
 
 export { router as adminRouter };
