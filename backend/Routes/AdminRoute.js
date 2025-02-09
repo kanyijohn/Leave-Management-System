@@ -73,9 +73,48 @@ router.post('/add_employee', (req, res) => {
 });
 
 router.get('/employee', (req, res) => {
-  const sql = "SELECT * FROM employee";
-  con.query(sql, (err, result) => {
+  const sql = `
+  SELECT employee.id, employee.name, employee.email, employee.phone, department.department AS department_name 
+  FROM employee 
+  JOIN department ON employee.department_id = department.id
+`;
+con.query(sql, (err, result) => {
+  if (err) return res.json({ Status: false, Error: "Query Error" });
+  return res.json({ Status: true, Result: result });
+});
+});
+
+router.get('/employee/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = "SELECT * FROM employee WHERE id = ?";
+  con.query(sql,[id], (err, result) => {
       if(err) return res.json({Status: false, Error: "Query Error"})
+      return res.json({Status: true, Result: result})
+  })
+})
+
+router.put('/edit_employee/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = `UPDATE employee 
+      set name = ?, email = ?, phone = ?, department_id = ? 
+      Where id = ?`
+  const values = [
+      req.body.name,
+      req.body.email,
+      req.body.phone,
+      req.body.department_id
+  ]
+  con.query(sql,[...values, id], (err, result) => {
+      if(err) return res.json({Status: false, Error: "Query Error"+err})
+      return res.json({Status: true, Result: result})
+  })
+})
+
+router.delete('/delete_employee/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = "delete from employee where id = ?"
+  con.query(sql,[id], (err, result) => {
+      if(err) return res.json({Status: false, Error: "Query Error"+err})
       return res.json({Status: true, Result: result})
   })
 })
