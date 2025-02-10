@@ -5,3 +5,58 @@
 body {
   font-family: 'Poppins', sans-serif;
 }
+
+/* Dashboard styles */
+.dashboard {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+}
+
+.dashboard .bg-dark {
+  background-color: #343a40 !important;
+}
+
+.dashboard .nav-link {
+  color: #adb5bd;
+}
+
+.dashboard .nav-link:hover {
+  color: #ffffff;
+}
+
+.dashboard .nav-link.active {
+  background-color: #495057;
+  color: #ffffff;
+}
+
+.dashboard .btn-outline-light {
+  border-color: #adb5bd;
+  color: #adb5bd;
+}
+
+.dashboard .btn-outline-light:hover {
+  background-color: #adb5bd;
+  color: #343a40;
+}
+
+.dashboard .fixed-top {
+  background-color: #ffffff;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.dashboard .nav.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.collapsed {
+  width: 80px !important;
+}
+
+.collapsed .nav-link span {
+  display: none;
+}
+
+.collapsed .d-none {
+  display: none !important;
+}
