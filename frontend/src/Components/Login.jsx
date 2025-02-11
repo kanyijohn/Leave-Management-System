@@ -60,10 +60,6 @@ const Login = () => {
               required
             />
           </div>
-          <div className="mb-3 form-check">
-            <input type="checkbox" className="form-check-input" id="tick" required />
-            <label className="form-check-label" htmlFor="tick">You agree with Terms & Conditions</label>
-          </div>
           <button type="submit" className="btn btn-success w-100 rounded mb-2">Login</button>
         </form>
         <div className="text-center mt-3">
