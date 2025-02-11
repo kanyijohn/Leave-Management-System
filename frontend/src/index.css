@@ -6,6 +6,10 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+.login {
+  background-color: #E2E8F0;
+}
+
 /* Dashboard styles */
 .dashboard {
   font-family: 'Poppins', sans-serif;
@@ -60,3 +64,10 @@ body {
 .collapsed .d-none {
   display: none !important;
 }
+
+. {
+  background-color: #495057;
+  color: whitesmoke;
+}
+
+

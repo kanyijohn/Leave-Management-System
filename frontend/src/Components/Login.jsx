@@ -29,7 +29,7 @@ const Login = () => {
   return (
     <div className="login">
     <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-      <div className="p-4 rounded shadow-lg bg-white" style={{ width: '500px' }}>
+      <div className="p-4 rounded shadow-lg bg-white" style={{ width: '470px' }}>
         <div className="text-danger mb-3">
           {error && error}
         </div>

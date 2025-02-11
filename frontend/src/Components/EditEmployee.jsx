@@ -113,8 +113,8 @@ const EditEmployee = () => {
           </div>
           
           <div className="col-12">
-            <button type="submit" className="btn btn-primary w-100">
-              Edit Employee
+            <button type="submit" className="btn btn-success w-100 rounded mb-2">
+              Edit 
             </button>
           </div>
         </form>

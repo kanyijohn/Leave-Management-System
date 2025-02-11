@@ -129,8 +129,10 @@ const AddEmployee = () => {
             </select>
           </div>
           <div className="col-12">
-            <button type="submit" className="btn btn-primary w-100">
-              Add Employee
+
+            <button type="submit" className="btn btn-success w-100 rounded mb-2">
+
+              Add
             </button>
           </div>
         </form>
