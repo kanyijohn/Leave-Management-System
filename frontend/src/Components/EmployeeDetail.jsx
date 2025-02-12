@@ -19,7 +19,7 @@ const EmployeeDetail = () => {
         .then(result => {
           if(result.data.Status) {
             localStorage.removeItem("valid")
-            navigate('/start')
+            navigate('/')
           }
         }).catch(err => console.log(err))
       }
