@@ -65,9 +65,18 @@ body {
   display: none !important;
 }
 
-. {
+
+.detail {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+}
+
+.p-2 {
   background-color: #495057;
   color: whitesmoke;
+  font-family: 'Poppins', sans-serif;
 }
+
+
 
 
