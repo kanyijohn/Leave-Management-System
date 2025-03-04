@@ -119,6 +119,56 @@ router.delete('/delete_employee/:id', (req, res) => {
   })
 })
 
+// Get all leave types
+router.get('/leavetype', (req, res) => {
+  const sql = "SELECT * FROM leavetype";
+  con.query(sql, (err, results) => {
+      if (err) return res.json({ Status: false, Error: err });
+      return res.json({ Status: true, Result: results });
+  });
+});
+
+// Add a new leave type
+router.post('/add_leavetype', (req, res) => {
+  const { name, duration, duration_type, is_custom } = req.body;
+
+  // Validate required fields
+  if (!name || !duration_type) {
+    return res.json({ Status: false, Error: "All fields are required" });
+}
+  const sql = "INSERT INTO leavetype (name, duration, duration_type, is_custom) VALUES (?, ?, ?, ?)";
+  const values = [name, duration, duration_type, is_custom];
+
+  con.query(sql, values, (err, result) => {
+      if (err) return res.json({ Status: false, Error: err });
+      return res.json({ Status: true, Result: result });
+  });
+});
+
+
+// Update an existing leave type
+router.put('/edit_leavetype/:id', (req, res) => {
+  const { id } = req.params;
+  const { name, duration, duration_type, is_custom } = req.body;
+  const sql = "UPDATE leavetype SET name = ?, duration = ?, duration_type = ?, is_custom = ? WHERE id = ?";
+  con.query(sql, [name, duration, duration_type, is_custom, id], (err, results) => {
+      if (err) return res.json({ Status: false, Error: err });
+      return res.json({ Status: true, Result: results });
+  });
+});
+
+
+// Delete a leave type
+router.delete('/delete_leavetype/:id', (req, res) => {
+  const { id } = req.params;
+  const query = "DELETE FROM leavetype WHERE id = ?";
+  con.query(query, [id], (err, results) => {
+      if (err) return res.json({ Status: false, Error: err });
+      return res.json({ Status: true, Result: results });
+  });
+});
+
+
 router.get('/logout', (req, res) => {
   res.clearCookie('token')
   return res.json({Status: true})

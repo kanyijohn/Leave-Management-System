@@ -3,18 +3,18 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
 const LeaveType = () => {
-  const [leaveTypes, setLeaveTypes] = useState([]);
+  const [leavetype, setLeaveType] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchLeaveTypes();
+    fetchLeaveType();
   }, []);
 
-  const fetchLeaveTypes = () => {
-    axios.get('http://localhost:3000/auth/leave_types')
+  const fetchLeaveType = () => {
+    axios.get('http://localhost:3000/auth/leavetype')
       .then(result => {
         if(result.data.Status) {
-          setLeaveTypes(result.data.Result);
+          setLeaveType(result.data.Result);
         } else {
           alert(result.data.Error);
         }
@@ -24,10 +24,10 @@ const LeaveType = () => {
 
   const handleDelete = (id) => {
     if(window.confirm("Are you sure you want to delete this leave type?")) {
-      axios.delete(`http://localhost:3000/auth/delete_leave_type/${id}`)
+      axios.delete(`http://localhost:3000/auth/delete_leavetype/${id}`)
         .then(result => {
           if(result.data.Status) {
-            fetchLeaveTypes();
+            fetchLeaveType();
           } else {
             alert(result.data.Error);
           }
@@ -40,7 +40,7 @@ const LeaveType = () => {
     <div className="container mt-4">
       <h2 className="mb-4">Manage Leave Types</h2>
       <div className="mb-3 text-end">
-        <Link to="/dashboard/addleavetype" className="btn btn-success">
+        <Link to="/dashboard/add_leavetype" className="btn btn-success">
         Add Leave Type
         </Link>
       </div>
@@ -49,18 +49,22 @@ const LeaveType = () => {
           <tr>
             <th>Leave Type</th>
             <th>Duration</th>
+            <th>Duration Type</th>
+            <th>Custom Leave</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {leaveTypes.map((lt) => (
+          {leavetype.map((e) => (
             <tr>
               
-              <td>{lt.name}</td>
-              <td>{lt.duration}</td>
+              <td>{e.name}</td>
+              <td>{e.duration}</td>
+              <td>{e.duration_type}</td>
+              <td>{e.is_custom ? 'Yes' : 'No'}</td>
               <td>
-                <Link to={`/dashboard/editleavetype/` + lt.id} className="btn btn-primary btn-sm me-2">Edit</Link>
-                <button className="btn btn-danger btn-sm" onClick={() => handleDelete(lt.id)}>Delete</button>
+                <Link to={`/dashboard/edit_leavetype/` + e.id} className="btn btn-primary btn-sm me-2">Edit</Link>
+                <button className="btn btn-danger btn-sm" onClick={() => handleDelete(e.id)}>Delete</button>
               </td>
             </tr>
           ))}
