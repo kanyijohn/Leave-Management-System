@@ -14,6 +14,9 @@ import Start from './Components/Start'
 import EmployeeLogin from './Components/EmployeeLogin'
 import EmployeeDetail from './Components/EmployeeDetail'
 import PrivateRoute from './Components/PrivateRoute'
+import LeaveType from './Components/LeaveType'
+import AddLeaveType from './Components/AddLeaveType'
+import EditLeaveType from './Components/EditLeaveType'
 
 function App() {
   return (
@@ -37,6 +40,9 @@ function App() {
         <Route path='/dashboard/add_department' element={<AddDepartment />}></Route>
         <Route path='/dashboard/add_employee' element={<AddEmployee />}></Route>
         <Route path='/dashboard/edit_employee/:id' element={<EditEmployee />}></Route>
+        <Route path='/dashboard/leavetype' element={< LeaveType />}></Route>
+        <Route path='/dashboard/add_leavetype' element={<AddLeaveType />}></Route>
+        <Route path='/dashboard/edit_leavetype/:id' element={<EditLeaveType />}></Route>
       </Route>
     </Routes>
     </BrowserRouter>

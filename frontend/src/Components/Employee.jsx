@@ -18,6 +18,7 @@ const Employee = () => {
       })
       .catch((err) => console.log(err));
   }, []);
+
   const handleDelete = (id) => {
     axios.delete('http://localhost:3000/auth/delete_employee/'+id)
     .then(result => {
