@@ -37,7 +37,7 @@ function App() {
       }>
 
       <Route path='' element={<EmployeeHome />}></Route>
-      <Route path='/employee_dashboard/employee_detail/:id' element={<EmployeeDetail />}></Route>
+      <Route path='/employee_dashboard/employee_detail' element={<EmployeeDetail />}></Route>
       <Route path='/employee_dashboard/applyleave' element={<ApplyLeave />}></Route>
       <Route path='/employee_dashboard/leavehistory' element={<LeaveHistory />}></Route>
       </Route>
