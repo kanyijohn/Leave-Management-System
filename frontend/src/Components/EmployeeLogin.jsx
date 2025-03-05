@@ -17,7 +17,7 @@ const EmployeeLogin = () => {
         .then(result => {
             if(result.data.loginStatus) {
                 localStorage.setItem("valid", true)
-                navigate('/employee_detail/'+result.data.id)
+                navigate('/employee_dashboard')
             } else {
                 setError(result.data.Error)
             }
@@ -74,4 +74,4 @@ const EmployeeLogin = () => {
       );
     };
 
-export default EmployeeLogin
+export default EmployeeLogin;
