@@ -1,21 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const ApplyLeave = () => {
   const [applyleave, setApplyLeave] = useState({ 
-    name: '', 
+    leavetype_id: '', 
     start_date: '',
     end_date: '', 
-    reason:''
+    reason: ''
   });
+  const [leavetype, setLeaveType] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch leave types from the backend
+    axios.get('http://localhost:3000/auth/leavetype')
+      .then(result => {
+        if (result.data.Status) {
+          setLeaveType(result.data.Result);
+        } else {
+          alert(result.data.Error);
+        }
+      })
+      .catch(err => console.log(err));
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     axios.post('http://localhost:3000/auth/applyleave', applyleave)
       .then(result => {
-        if(result.data.Status) {
+        if (result.data.Status) {
           navigate('/employee_dashboard/applyleave');
         } else {
           alert(result.data.Error);
@@ -30,29 +44,37 @@ const ApplyLeave = () => {
         <h3 className="text-center">Apply Leave</h3>
         <form className="row g-3" onSubmit={handleSubmit}>
 
-          {/* Leave Name */}
+          {/* Leave Type */}
           <div className="col-12">
-            <label htmlFor="leaveName" className="form-label">Name</label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              id="leaveName"
-              placeholder="Enter Leave Name"
+            <label htmlFor="leavetype" className="form-label">
+              Leave Type
+            </label>
+            <select
+              name="leavetype"
+              id="leavetype"
+              className="form-select"
               onChange={(e) =>
-                setLeaveType({ ...leavetype, name: e.target.value })
+                setApplyLeave({ ...applyleave, leavetype_id: e.target.value })
               }
-              value={applyleave.name}
+              value={applyleave.leavetype_id}
               required
-            />
+            >
+              <option value="">Select Leave</option>
+              {leavetype.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
           </div>
 
-          {/* StartDate */}
+          {/* Start Date */}
           <div className="col-12">
             <label htmlFor="startDate" className="form-label">From</label>
             <input
               type="date"
               className="form-control rounded-0"
-              id="duration"
+              id="startDate"
               placeholder="Enter Start Date"
               onChange={(e) =>
                 setApplyLeave({ ...applyleave, start_date: e.target.value })
@@ -62,13 +84,13 @@ const ApplyLeave = () => {
             />
           </div>
 
-           {/* EndDate */}
-           <div className="col-12">
+          {/* End Date */}
+          <div className="col-12">
             <label htmlFor="endDate" className="form-label">To</label>
             <input
               type="date"
               className="form-control rounded-0"
-              id="duration"
+              id="endDate"
               placeholder="Enter End Date"
               onChange={(e) =>
                 setApplyLeave({ ...applyleave, end_date: e.target.value })
@@ -78,7 +100,7 @@ const ApplyLeave = () => {
             />
           </div>
 
-          {/* Reason  */}
+          {/* Reason */}
           <div className="col-12">
             <label htmlFor="reason" className="form-label">Reason</label>
             <input

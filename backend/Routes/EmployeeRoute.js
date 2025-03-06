@@ -43,6 +43,39 @@ router.get('/detail/:id', (req, res) => {
   })
 })
 
+// Apply for leave
+router.post('/applyleave', (req, res) => {
+  const { employee_id, leavetype_id, start_date, end_date, reason } = req.body;
+
+  // Check if the leave type exists and get its duration
+  const sql = "SELECT * FROM leavetype WHERE id = ?";
+  con.query(sql, [leavetype_id], (err, leaveTypeResults) => {
+      if (err) return res.json({ Status: false, Error: err });
+      if (leaveTypeResults.length === 0) return res.json({ Status: false, Error: "Leave type does not exist" });
+
+      const leavetype = leaveTypeResults[0];
+      const duration = parseInt(leavetype.duration.split(' ')[0]); // Assuming duration is in the format "30 working days"
+
+      // Calculate the difference between start_date and end_date
+      const startDate = new Date(start_date);
+      const endDate = new Date(end_date);
+      const timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+      const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+      // Check if the duration is within the allowed range
+      if (diffDays > duration) {
+          return res.json({ Status: false, Error: `Leave duration exceeds the allowed ${duration} days` });
+      }
+
+      // Insert the leave application
+      const query = "INSERT INTO applyleave (employee_id, leavetype_id, start_date, end_date, reason) VALUES (?, ?, ?, ?, ?)";
+        db.query(query, [employee_id, leavetype_id, start_date, end_date, reason], (err, results) => {
+            if (err) return res.json({ Status: false, Error: err });
+            return res.json({ Status: true, Result: results });
+        });
+    });
+});
+
 
 router.get('/logout', (req, res) => {
   res.clearCookie('token')
