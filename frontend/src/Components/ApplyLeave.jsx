@@ -27,7 +27,7 @@ const ApplyLeave = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3000/auth/applyleave', applyleave)
+    axios.post('http://localhost:3000/employee/applyleave', applyleave)
       .then(result => {
         if (result.data.Status) {
           navigate('/employee_dashboard/applyleave');

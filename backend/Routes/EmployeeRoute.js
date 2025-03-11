@@ -54,7 +54,7 @@ router.post('/applyleave', (req, res) => {
       if (leaveTypeResults.length === 0) return res.json({ Status: false, Error: "Leave type does not exist" });
 
       const leavetype = leaveTypeResults[0];
-      const duration = parseInt(leavetype.duration.split(' ')[0]); // Assuming duration is in the format "30 working days"
+      const duration = Array.isArray(leavetype.duration) ? leavetype.duration : [leavetype.duration]; // Assuming duration is in the format "30 working days"
 
       // Calculate the difference between start_date and end_date
       const startDate = new Date(start_date);
@@ -69,7 +69,7 @@ router.post('/applyleave', (req, res) => {
 
       // Insert the leave application
       const query = "INSERT INTO applyleave (employee_id, leavetype_id, start_date, end_date, reason) VALUES (?, ?, ?, ?, ?)";
-        db.query(query, [employee_id, leavetype_id, start_date, end_date, reason], (err, results) => {
+        con.query(query, [employee_id, leavetype_id, start_date, end_date, reason], (err, results) => {
             if (err) return res.json({ Status: false, Error: err });
             return res.json({ Status: true, Result: results });
         });
