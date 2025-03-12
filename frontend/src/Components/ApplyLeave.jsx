@@ -3,7 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const ApplyLeave = () => {
+
   const [applyleave, setApplyLeave] = useState({ 
+    employee_id: Number(localStorage.getItem('employee_id')) || "",  // Convert to number
     leavetype_id: '', 
     start_date: '',
     end_date: '', 
@@ -27,17 +29,25 @@ const ApplyLeave = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Submitting Leave Data:", applyleave);
+  
+    if (!applyleave.employee_id || isNaN(applyleave.employee_id)) {
+      alert("Error: Employee ID is missing. Please log in again.");
+      return;
+    }
+  
     axios.post('http://localhost:3000/employee/applyleave', applyleave)
       .then(result => {
         if (result.data.Status) {
-          navigate('/employee_dashboard/applyleave');
+          alert("Leave applied successfully!");
+          navigate('/employee_dashboard/leavehistory');
         } else {
           alert(result.data.Error);
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log("Request Error:", err));
   };
-
+  
   return (
     <div className="d-flex justify-content-center align-items-center mt-3">
       <div className="p-3 rounded w-50 border">
