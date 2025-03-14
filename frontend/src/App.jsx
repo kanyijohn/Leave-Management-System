@@ -40,7 +40,7 @@ function App() {
       <Route path='/employee_dashboard/employeedetail' element={<EmployeeDetail />}></Route>
       <Route path='/employee_dashboard/applyleave' element={<ApplyLeave />}></Route>
       <Route path='/employee_dashboard/leaverequests' element={<LeaveRequests />}></Route>
-      </Route>
+      </Route> 
 
       <Route path='/dashboard' element={
         <PrivateRoute >

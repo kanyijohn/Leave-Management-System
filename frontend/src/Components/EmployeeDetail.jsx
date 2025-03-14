@@ -1,28 +1,34 @@
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const EmployeeDetail = () => {
   const [employee, setEmployee] = useState({});
-  const { id } = useParams();
   const navigate = useNavigate();
+  const employee_id = localStorage.getItem('employee_id'); // Get employee ID from localStorage
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/employee/detail/${id}`)
+    axios.get(`http://localhost:3000/employee/detail/${employee_id}`)
       .then(result => {
-        setEmployee(result.data[0]);
+        if(result.data.Status) {
+          // Expecting Result to be an array with a single employee object
+          setEmployee(result.data.Result[0]);
+        } else {
+          alert(result.data.Error);
+        }
       })
       .catch(err => console.log(err));
-  }, [id]);
+  }, [employee_id]);
 
   const handleLogout = () => {
     axios.get('http://localhost:3000/employee/logout')
       .then(result => {
-        if (result.data.Status) {
-          localStorage.removeItem("valid");
+        if(result.data.Status) {
+          localStorage.removeItem("employee_id");
           navigate('/');
         }
-      }).catch(err => console.log(err));
+      })
+      .catch(err => console.log(err));
   };
 
   return (
@@ -33,59 +39,11 @@ const EmployeeDetail = () => {
           <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
         </div>
         <div className="card-body">
-          <div className="row">
-            <div className="col-md-4 text-center">
-              <img src={employee.profile_picture || 'https://via.placeholder.com/150'} alt="Profile" className="img-fluid rounded-circle mb-3" />
-              <h5>{employee.name}</h5>
-              <p className="text-muted">{employee.position}</p>
-            </div>
-            <div className="col-md-8">
-              <h5 className="mb-3">Personal Details</h5>
-              <div className="row mb-2">
-                <div className="col-sm-4"><strong>Email:</strong></div>
-                <div className="col-sm-8">{employee.email}</div>
-              </div>
-              <div className="row mb-2">
-                <div className="col-sm-4"><strong>Phone:</strong></div>
-                <div className="col-sm-8">{employee.phone}</div>
-              </div>
-              <div className="row mb-2">
-                <div className="col-sm-4"><strong>Department:</strong></div>
-                <div className="col-sm-8">{employee.department_name}</div>
-              </div>
-              <div className="row mb-2">
-                <div className="col-sm-4"><strong>Position:</strong></div>
-                <div className="col-sm-8">{employee.position}</div>
-              </div>
-              <div className="row mb-2">
-                <div className="col-sm-4"><strong>Address:</strong></div>
-                <div className="col-sm-8">{employee.address}</div>
-              </div>
-              <div className="row mb-2">
-                <div className="col-sm-4"><strong>Date of Birth:</strong></div>
-                <div className="col-sm-8">{employee.date_of_birth}</div>
-              </div>
-              <div className="row mb-2">
-                <div className="col-sm-4"><strong>Date of Joining:</strong></div>
-                <div className="col-sm-8">{employee.date_of_joining}</div>
-              </div>
-              <div className="row mb-2">
-                <div className="col-sm-4"><strong>Emergency Contact:</strong></div>
-                <div className="col-sm-8">{employee.emergency_contact}</div>
-              </div>
-              <div className="row mb-2">
-                <div className="col-sm-4"><strong>Blood Group:</strong></div>
-                <div className="col-sm-8">{employee.blood_group}</div>
-              </div>
-              <div className="row mb-2">
-                <div className="col-sm-4"><strong>Nationality:</strong></div>
-                <div className="col-sm-8">{employee.nationality}</div>
-              </div>
-              <div className="text-end mt-4">
-                <button className="btn btn-primary me-2">Edit Profile</button>
-              </div>
-            </div>
-          </div>
+          <h5>Name: {employee.name}</h5>
+          <p><strong>Email:</strong> {employee.email}</p>
+          <p><strong>Phone:</strong> {employee.phone}</p>
+          <p><strong>Department:</strong> {employee.department_name}</p>
+          {/* Additional profile details can be added here */}
         </div>
       </div>
     </div>

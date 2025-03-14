@@ -30,18 +30,20 @@ router.post("/employee_login", (req, res) => {
   });
 });
 
-router.get('/detail/:id', (req, res) => {
-  const id = req.params.id;
+// Get profile for a specific employee
+router.get('/detail/:employee_id', (req, res) => {
+  const employee_id = req.params.employee_id;
   const sql = `
     SELECT employee.id, employee.name, employee.email, employee.phone, department.department AS department_name 
     FROM employee 
     JOIN department ON employee.department_id = department.id
+    WHERE employee.id = ?
   `;
-  con.query(sql, [id], (err, result) => {
-    if (err) return res.json({ Status: false });
-    return res.json(result)
-  })
-})
+  con.query(sql, [employee_id], (err, result) => {
+    if (err) return res.json({ Status: false, Error: err.message });
+    return res.json({ Status: true, Result: result });
+  });
+});
 
 // Apply for leave
 router.post('/applyleave', (req, res) => {
@@ -127,18 +129,26 @@ router.post('/applyleave', (req, res) => {
   });
 });
 
-// Get all leave applications
-router.get('/leavehistory', (req, res) => {
+// Get leave applications for a specific employee
+router.get('/leaverequests/:employee_id', (req, res) => {
+  const employee_id = req.params.employee_id;
   const sql = `
-  SELECT employee.id, employee.name, employee.email, employee.phone, department.department AS department_name 
-  FROM employee 
-  JOIN department ON employee.department_id = department.id
-`;
-con.query(sql, (err, result) => {
-  if (err) return res.json({ Status: false, Error: "Query Error" });
-  return res.json({ Status: true, Result: result });
-});
+    SELECT applyleave.employee_id, applyleave.leavetype_id, applyleave.start_date, applyleave.end_date, 
+           applyleave.reason, applyleave.status, leavetype.name AS leavetype_name, employee.name AS employee_name
+    FROM applyleave
+    JOIN employee ON applyleave.employee_id = employee.id
+    JOIN leavetype ON applyleave.leavetype_id = leavetype.id
+    WHERE applyleave.employee_id = ?
+  `;
+  con.query(sql, [employee_id], (err, result) => {
+    if (err) return res.json({ Status: false, Error: "Query Error", Details: err });
+    return res.json({ Status: true, Result: result });
+  });
 });
 
+router.get('/logout', (req, res) => {
+  res.clearCookie('token')
+  return res.json({Status: true})
+})
 
 export { router as EmployeeRouter }

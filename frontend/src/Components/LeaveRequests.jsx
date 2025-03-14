@@ -5,13 +5,14 @@ import { Link, useNavigate } from 'react-router-dom';
 const LeaveRequests = () => {
   const [leaverequests, setLeaveRequests] = useState([]);
   const navigate = useNavigate();
+  const employee_id = localStorage.getItem('employee_id'); // Get employee ID from localStorage
 
   useEffect(() => {
     fetchLeaveRequests();
   }, []);
 
   const fetchLeaveRequests = () => {
-    axios.get('http://localhost:3000/employee/leaverequests')
+    axios.get(`http://localhost:3000/employee/leaverequests/${employee_id}`)
       .then(result => {
         if(result.data.Status) {
           setLeaveRequests(result.data.Result);
@@ -39,7 +40,7 @@ const LeaveRequests = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-4">Leave Requests</h2>
+      <h2 className="mb-4">Leave Applications</h2>
       <div className="mb-3 text-end">
         <Link to="/employee_dashboard/applyleave" className="btn btn-success">
           Apply Leave
@@ -48,22 +49,26 @@ const LeaveRequests = () => {
       <table className="table">
         <thead>
           <tr>
+
             <th>Leave Type</th>
-            <th>Duration</th>
-            <th>Duration Type</th>
-            <th>Custom Leave</th>
-            <th>Action</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Reason</th>
+            <th>Status</th>
+            <th>Actions</th>
           </tr>
         </thead>
+
         <tbody>
           {leaverequests.map((e) => (
             <tr key={e.id}>
-              <td>{e.name}</td>
-              <td>{e.duration}</td>
-              <td>{e.duration_type}</td>
-              <td>{e.is_custom ? 'Yes' : 'No'}</td>
+              <td>{e.leavetype_name}</td>
+              <td>{e.start_date}</td>
+              <td>{e.end_date}</td>
+              <td>{e.reason}</td>
+              <td>{e.status}</td>
               <td>
-                <Link to={`/dashboard/edit_leavetype/${e.id}`} className="btn btn-primary btn-sm me-2">
+                <Link to={`/employee_dashboard/editleaverequest/${e.id}`} className="btn btn-primary btn-sm me-2">
                   Edit
                 </Link>
                 <button className="btn btn-danger btn-sm" onClick={() => handleDelete(e.id)}>
