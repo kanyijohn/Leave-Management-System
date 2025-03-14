@@ -19,7 +19,7 @@ import AddLeaveType from './Components/AddLeaveType'
 import EditLeaveType from './Components/EditLeaveType'
 import EmployeeDashboard from './Components/EmployeeDashboard'
 import ApplyLeave from './Components/ApplyLeave'
-import LeaveHistory from './Components/LeaveHistory'
+import LeaveRequests from './Components/LeaveRequests'
 import EmployeeHome from './Components/EmployeeHome'
 
 function App() {
@@ -37,9 +37,9 @@ function App() {
       }>
 
       <Route path='' element={<EmployeeHome />}></Route>
-      <Route path='/employee_dashboard/employee_detail' element={<EmployeeDetail />}></Route>
+      <Route path='/employee_dashboard/employeedetail' element={<EmployeeDetail />}></Route>
       <Route path='/employee_dashboard/applyleave' element={<ApplyLeave />}></Route>
-      <Route path='/employee_dashboard/leavehistory' element={<LeaveHistory />}></Route>
+      <Route path='/employee_dashboard/leaverequests' element={<LeaveRequests />}></Route>
       </Route>
 
       <Route path='/dashboard' element={

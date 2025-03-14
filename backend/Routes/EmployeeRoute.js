@@ -128,8 +128,7 @@ router.post('/applyleave', (req, res) => {
 });
 
 // Get all leave applications
-
-router.get('/employee', (req, res) => {
+router.get('/leavehistory', (req, res) => {
   const sql = `
   SELECT employee.id, employee.name, employee.email, employee.phone, department.department AS department_name 
   FROM employee 

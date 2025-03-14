@@ -54,7 +54,7 @@ const EmployeeDashboard = () => {
 
               <li className="w-100">
                 <Link
-                  to="/employee_dashboard/employee_detail"
+                  to="/employee_dashboard/employeedetail"
                   className="nav-link px-0 align-middle text-white"
                 >
                   <i className="fs-4 bi-person ms-2"></i>
@@ -73,11 +73,11 @@ const EmployeeDashboard = () => {
               </li>
               <li className="w-100">
                 <Link
-                  to="/employee_dashboard/leavehistory"
+                  to="/employee_dashboard/leaverequests"
                   className="nav-link px-0 align-middle text-white"
                 >
                   <i className="fs-4 bi-calendar-check ms-2"></i>
-                  <span className={`ms-2 d-none d-sm-inline ${isCollapsed ? 'd-none' : ''}`}>Leave History</span>
+                  <span className={`ms-2 d-none d-sm-inline ${isCollapsed ? 'd-none' : ''}`}>Leave Requests</span>
                 </Link>
               </li>
               <li className="w-100" onClick={handleLogout}>
