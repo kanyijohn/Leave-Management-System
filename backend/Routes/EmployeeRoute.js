@@ -146,6 +146,35 @@ router.get('/leaverequests/:employee_id', (req, res) => {
   });
 });
 
+/* Edit (Update) a specific leave request*/
+router.put('/editleaverequest/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = `UPDATE applyleave 
+      SET leavetype_id = ?, start_date = ?, end_date = ?, reason = ?
+      WHERE id = ? AND employee_id = ?
+      `;
+  const values = [
+      req.body.leavetype_id,
+      req.body.start_date,
+      req.body.end_date,
+      req.body.reason
+  ]
+  con.query(sql,[...values, id], (err, result) => {
+      if(err) return res.json({Status: false, Error: "Query Error"+err})
+      return res.json({Status: true, Result: result})
+  })
+})
+
+/* Delete a specific leave request */
+
+router.delete('/deleteleaverequests/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = "delete from applyleave where id = ?"
+  con.query(sql,[id], (err, result) => {
+      if(err) return res.json({Status: false, Error: "Query Error"+err})
+      return res.json({Status: true, Result: result, Message: "Leave deleted successfully!"})
+  })
+})
 
 
 router.get('/logout', (req, res) => {
