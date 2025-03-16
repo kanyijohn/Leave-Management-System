@@ -40,7 +40,7 @@ const ApplyLeave = () => {
       .then(result => {
         if (result.data.Status) {
           alert("Leave applied successfully!");
-          navigate('/employee_dashboard/leavehistory');
+          navigate('/employee_dashboard/leaverequests');
         } else {
           alert(result.data.Error);
         }
