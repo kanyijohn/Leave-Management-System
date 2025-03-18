@@ -177,6 +177,8 @@ router.delete('/deleteleaverequests/:id', (req, res) => {
 })
 
 
+
+
 router.get('/logout', (req, res) => {
   res.clearCookie('token')
   return res.json({Status: true})

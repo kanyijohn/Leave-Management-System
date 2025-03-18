@@ -169,6 +169,29 @@ router.delete('/delete_leavetype/:id', (req, res) => {
 });
 
 
+//Returns the complete leave history of all employees.
+router.get('/leaverequests', (req, res) => {
+  const sql = `
+    SELECT 
+       applyleave.id, applyleave.employee_id, applyleave.leavetype_id, applyleave.start_date, applyleave.end_date, 
+       applyleave.reason, applyleave.status, 
+       leavetype.name AS leavetype_name, 
+       employee.name AS employee_name
+    FROM applyleave
+    JOIN employee ON applyleave.employee_id = employee.id
+    JOIN leavetype ON applyleave.leavetype_id = leavetype.id
+    ORDER BY applyleave.start_date DESC
+  `;
+
+  con.query(sql, (err, result) => {
+    if (err) return res.status(500).json({ Status: false, Error: err.message });
+    return res.json({ Status: true, Result: result });
+  });
+});
+
+
+
+
 router.get('/logout', (req, res) => {
   res.clearCookie('token')
   return res.json({Status: true})
