@@ -190,6 +190,19 @@ router.get('/leaverequests', (req, res) => {
 });
 
 
+//Approves the leave application with the specified id by setting its status to 'approved'.
+router.put('/approve/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = `UPDATE applyleave SET status = 'Approved' WHERE id = ?`;
+  con.query(sql, [id], (err, result) => {
+    if (err) return res.status(500).json({ Status: false, Error: err.message });
+    if (result.affectedRows === 0) {
+      return res.json({ Status: false, Error: "No matching leave request found." });
+    }
+    return res.json({ Status: true, Message: "Leave request approved successfully!" });
+  });
+});
+
 
 
 router.get('/logout', (req, res) => {

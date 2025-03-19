@@ -23,6 +23,7 @@ import LeaveRequests from './Components/LeaveRequests'
 import EmployeeHome from './Components/EmployeeHome'
 import EditLeaveRequest from './Components/EditLeaveRequest'
 import LeaveManagement from './Components/LeaveManagement'
+import Approve from './Components/Approve'
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
           <Route path="add_leavetype" element={<AddLeaveType />} />
           <Route path="edit_leavetype/:id" element={<EditLeaveType />} />
           <Route path="leavemanagement" element={<LeaveManagement />} />
+          <Route path="approve/:id" element={<Approve />} />
         </Route>
       </Routes>
     </BrowserRouter>
