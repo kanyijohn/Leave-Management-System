@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const LeaveManagement = () => {
+const ApprovedLeaves = () => {
   const [leaveRequests, setLeaveRequests] = useState([]);
 
   useEffect(() => {
     fetchLeaveRequests();
   }, []);
 
+  // ✅ Fetch all pending leave requests
   const fetchLeaveRequests = () => {
-    axios.get('http://localhost:3000/auth/leaverequests') // Fetch all leave requests
+    axios.get('http://localhost:3000/auth/leaverequests') // Fixed API endpoint
       .then(response => {
         if (response.data.Status) {
           setLeaveRequests(response.data.Result);
@@ -20,38 +21,25 @@ const LeaveManagement = () => {
       .catch(error => console.error("Error fetching leave requests:", error));
   };
 
+  // ✅ Approve Leave
   const approveLeave = (id) => {
-    axios.put(`http://localhost:3000/auth/approvedleaves/${id}`) // Approve leave request
-      .then(response => {
-        if (response.data.Status) {
-          alert("Leave request approved successfully!");
-          fetchLeaveRequests(); // Refresh leave requests
-        } else {
-          alert(response.data.Error);
-        }
-      })
-      .catch(error => console.error("Error approving leave:", error));
-  };
-
-  const deleteLeaveRequest = (id) => {
-    if (window.confirm("Are you sure you want to delete this leave request?")) {
-      axios.delete(`http://localhost:3000/employee/deleteleaverequests/${id}`)
+    if (window.confirm("Are you sure you want to approve this leave request?")) {
+      axios.put(`http://localhost:3000/auth/approvedleaves/${id}`) // Corrected API call
         .then(response => {
           if (response.data.Status) {
-            alert("Leave request deleted successfully!");
-            setLeaveRequests(leaveRequests.filter(request => request.id !== id));
+            alert("Leave request approved successfully!");
+            fetchLeaveRequests(); // Refresh list after approval
           } else {
             alert(response.data.Error);
           }
         })
-        .catch(error => console.error("Error deleting leave request:", error));
+        .catch(error => console.error("Error approving leave:", error));
     }
   };
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-4">Employee Leave Requests</h2>
-
+      <h2 className="mb-4">Approve Leave Requests</h2>
       <table className="table">
         <thead>
           <tr>
@@ -64,7 +52,6 @@ const LeaveManagement = () => {
             <th>Actions</th>
           </tr>
         </thead>
-
         <tbody>
           {leaveRequests.map((leave) => (
             <tr key={leave.id}>
@@ -73,18 +60,15 @@ const LeaveManagement = () => {
               <td>{leave.start_date}</td>
               <td>{leave.end_date}</td>
               <td>{leave.reason}</td>
-              <td className={leave.status === "Approved" ? "text-success fw-bold" : "text-warning"}>
+              <td className={leave.status === "Approved" ? "text-success" : "text-warning"}>
                 {leave.status}
               </td>
               <td>
                 {leave.status !== "Approved" && (
-                  <button className="btn btn-primary btn-sm me-2" onClick={() => approveLeave(leave.id)}>
+                  <button className="btn btn-success btn-sm" onClick={() => approveLeave(leave.id)}>
                     Approve
                   </button>
                 )}
-                <button className="btn btn-danger btn-sm" onClick={() => deleteLeaveRequest(leave.id)}>
-                  Delete
-                </button>
               </td>
             </tr>
           ))}
@@ -94,4 +78,4 @@ const LeaveManagement = () => {
   );
 };
 
-export default LeaveManagement;
+export default ApprovedLeaves;

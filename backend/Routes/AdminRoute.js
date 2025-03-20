@@ -189,20 +189,44 @@ router.get('/leaverequests', (req, res) => {
   });
 });
 
-
-//Approves the leave application with the specified id by setting its status to 'approved'.
-router.put('/approve/:id', (req, res) => {
+// ✅ Approve a leave request (Admin)
+router.put('/approvedleaves/:id', (req, res) => {
   const id = req.params.id;
-  const sql = `UPDATE applyleave SET status = 'Approved' WHERE id = ?`;
-  con.query(sql, [id], (err, result) => {
+
+  // Update the leave request status
+  const updateQuery = `UPDATE applyleave SET status = 'Approved' WHERE id = ?`;
+
+  con.query(updateQuery, [id], (err, updateResult) => {
     if (err) return res.status(500).json({ Status: false, Error: err.message });
-    if (result.affectedRows === 0) {
+
+    if (updateResult.affectedRows === 0) {
       return res.json({ Status: false, Error: "No matching leave request found." });
     }
+
     return res.json({ Status: true, Message: "Leave request approved successfully!" });
   });
 });
 
+// ✅ Fetch only approved leave requests
+router.get('/approve', (req, res) => {
+  const sql = `
+    SELECT 
+      applyleave.id, applyleave.employee_id, applyleave.leavetype_id, applyleave.start_date, applyleave.end_date, 
+      applyleave.reason, applyleave.status, 
+      leavetype.name AS leavetype_name, 
+      employee.name AS employee_name
+    FROM applyleave
+    JOIN employee ON applyleave.employee_id = employee.id
+    JOIN leavetype ON applyleave.leavetype_id = leavetype.id
+    WHERE applyleave.status = 'Approved'
+    ORDER BY applyleave.start_date DESC
+  `;
+
+  con.query(sql, (err, result) => {
+    if (err) return res.status(500).json({ Status: false, Error: err.message });
+    return res.json({ Status: true, Result: result });
+  });
+});
 
 
 router.get('/logout', (req, res) => {
