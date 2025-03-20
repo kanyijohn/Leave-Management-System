@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const LeaveManagement = () => {
   const [leaveRequests, setLeaveRequests] = useState([]);
+  const navigate = useNavigate(); // Initialize navigation
 
   useEffect(() => {
     fetchLeaveRequests();
   }, []);
 
   const fetchLeaveRequests = () => {
-    axios.get('http://localhost:3000/auth/leaverequests') // Fetch all leave requests
+    axios.get('http://localhost:3000/auth/leaverequests')
       .then(response => {
         if (response.data.Status) {
           setLeaveRequests(response.data.Result);
@@ -21,11 +23,11 @@ const LeaveManagement = () => {
   };
 
   const approveLeave = (id) => {
-    axios.put(`http://localhost:3000/auth/approvedleaves/${id}`) // Approve leave request
+    axios.put(`http://localhost:3000/auth/approvedleaves/${id}`)
       .then(response => {
         if (response.data.Status) {
           alert("Leave request approved successfully!");
-          fetchLeaveRequests(); // Refresh leave requests
+          fetchLeaveRequests();
         } else {
           alert(response.data.Error);
         }
@@ -51,6 +53,11 @@ const LeaveManagement = () => {
   return (
     <div className="container mt-4">
       <h2 className="mb-4">Employee Leave Requests</h2>
+
+      {/* Button to navigate to Approve.jsx (Approved Leaves Page) */}
+      <button className="btn btn-success mb-3" onClick={() => navigate('/dashboard/approve')}>
+        View Approved Leaves
+      </button>
 
       <table className="table">
         <thead>
