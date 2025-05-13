@@ -207,6 +207,8 @@ router.put('/approvedleaves/:id', (req, res) => {
   });
 });
 
+
+
 // ✅ Fetch only approved leave requests
 router.get('/approve', (req, res) => {
   const sql = `
