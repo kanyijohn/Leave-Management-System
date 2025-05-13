@@ -62,7 +62,6 @@ function App() {
           <Route path="edit_leavetype/:id" element={<EditLeaveType />} />
           <Route path="leavemanagement" element={<LeaveManagement />} />
           <Route path="approve" element={<Approve />} />
-          
 
         </Route>
       </Routes>
