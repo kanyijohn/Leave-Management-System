@@ -248,6 +248,38 @@ router.get('/approve', (req, res) => {
   });
 });
 
+// Admin Dashboard
+router.get('/dashboard', (req, res) => {
+  const sql = `
+    SELECT 
+      (SELECT COUNT(*) FROM employee) AS totalEmployees,
+      (SELECT COUNT(*) FROM applyleave WHERE status = 'pending') AS pendingLeaves,
+      (SELECT COUNT(*) FROM applyleave WHERE status = 'approved') AS approvedLeaves,
+      (SELECT COUNT(*) FROM applyleave WHERE status = 'rejected') AS rejectedLeaves,
+      (SELECT COUNT(*) FROM applyleave) AS totalLeaves
+  `;
+  con.query(sql, (err, result) => {
+    if (err) return res.status(500).json({ Status: false, Error: err.message });
+    return res.json({ Status: true, Result: result[0] });
+  });
+});
+
+// Route: GET /auth/leaverequests
+router.get('/leaverequests', (req, res) => {
+  const sql = `
+    SELECT a.id, e.name AS employee_name, a.start_date, a.end_date, a.reason, a.status, a.created_at
+    FROM applyleave a
+    JOIN employee e ON a.employee_id = e.id
+    WHERE a.created_at >= NOW() - INTERVAL 30 MINUTE
+    ORDER BY a.created_at DESC
+  `;
+
+  con.query(sql, (err, result) => {
+    if (err) return res.status(500).json({ Status: false, Error: err.message });
+    return res.json({ Status: true, Result: result });
+  });
+});
+
 
 router.get('/logout', (req, res) => {
   res.clearCookie('token')

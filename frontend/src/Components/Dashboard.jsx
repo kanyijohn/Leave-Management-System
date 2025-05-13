@@ -3,6 +3,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
 import adminIcon from '../assets/admin-icon.png'; // Update with the correct path to your admin icon
+import Notification from './Notification';
 
 const Dashboard = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -113,9 +114,9 @@ const Dashboard = () => {
         <div className="col p-0 m-0">
           <div className="p-2 d-flex justify-content-between align-items-center shadow bg-light">
             <h3 className="nav title"><strong>Employee Leave Management</strong></h3>
-            <div>
-              <button className="btn btn-outline-dark me-2">Notifications</button>
-              <button className="btn btn-outline-dark">Settings</button>
+            <div className="d-flex justify-content-end mb-3">
+                  <Notification />
+             
             </div>
           </div>
           <Outlet />
