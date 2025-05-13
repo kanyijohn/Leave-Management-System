@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const LeaveManagement = () => {
   const [leaveRequests, setLeaveRequests] = useState([]);
-  const navigate = useNavigate(); // Initialize navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchLeaveRequests();
@@ -35,13 +35,28 @@ const LeaveManagement = () => {
       .catch(error => console.error("Error approving leave:", error));
   };
 
+  const rejectLeave = (id) => {
+    if (window.confirm("Are you sure you want to reject this leave request?")) {
+      axios.put(`http://localhost:3000/auth/rejectleaves/${id}`)
+        .then(response => {
+          if (response.data.Status) {
+            alert("Leave request rejected successfully!");
+            fetchLeaveRequests();
+          } else {
+            alert(response.data.Error);
+          }
+        })
+        .catch(error => console.error("Error rejecting leave:", error));
+    }
+  };
+
   const deleteLeaveRequest = (id) => {
     if (window.confirm("Are you sure you want to delete this leave request?")) {
       axios.delete(`http://localhost:3000/employee/deleteleaverequests/${id}`)
         .then(response => {
           if (response.data.Status) {
-            alert("Leave request deleted successfully!");
-            setLeaveRequests(leaveRequests.filter(request => request.id !== id));
+            alert("Leave request deleted.");
+            setLeaveRequests(leaveRequests.filter(leave => leave.id !== id));
           } else {
             alert(response.data.Error);
           }
@@ -54,13 +69,15 @@ const LeaveManagement = () => {
     <div className="container mt-4">
       <h2 className="mb-4">Employee Leave Requests</h2>
 
-      {/* Button to navigate to Approve.jsx (Approved Leaves Page) */}
+      {/* ✅ Navigation Button to Approved Leaves Page */}
       <button className="btn btn-success mb-3" onClick={() => navigate('/dashboard/approve')}>
         View Approved Leaves
       </button>
 
+
+
       <table className="table">
-        <thead>
+        <thead className="table-light">
           <tr>
             <th>Employee Name</th>
             <th>Leave Type</th>
@@ -80,16 +97,38 @@ const LeaveManagement = () => {
               <td>{leave.start_date}</td>
               <td>{leave.end_date}</td>
               <td>{leave.reason}</td>
-              <td className={leave.status === "Approved" ? "text-success fw-bold" : "text-warning"}>
+              <td
+                className={
+                  leave.status === "Approved"
+                    ? "text-success fw-bold"
+                    : leave.status === "Rejected"
+                    ? "text-danger fw-bold"
+                    : "text-warning"
+                }
+              >
                 {leave.status}
               </td>
               <td>
-                {leave.status !== "Approved" && (
-                  <button className="btn btn-primary btn-sm me-2" onClick={() => approveLeave(leave.id)}>
-                    Approve
-                  </button>
+                {leave.status === "Pending" && (
+                  <>
+                    <button
+                      className="btn btn-primary btn-sm me-2"
+                      onClick={() => approveLeave(leave.id)}
+                    >
+                      Approve
+                    </button>
+                    <button
+                      className="btn btn-warning btn-sm me-2"
+                      onClick={() => rejectLeave(leave.id)}
+                    >
+                      Reject
+                    </button>
+                  </>
                 )}
-                <button className="btn btn-danger btn-sm" onClick={() => deleteLeaveRequest(leave.id)}>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => deleteLeaveRequest(leave.id)}
+                >
                   Delete
                 </button>
               </td>

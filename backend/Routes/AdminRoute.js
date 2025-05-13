@@ -207,6 +207,24 @@ router.put('/approvedleaves/:id', (req, res) => {
   });
 });
 
+// ✅ Reject a leave request (Admin)
+router.put('/rejectleaves/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Update the leave request status
+  const updateQuery = `UPDATE applyleave SET status = 'Rejected' WHERE id = ?`;
+
+  con.query(updateQuery, [id], (err, updateResult) => {
+    if (err) return res.status(500).json({ Status: false, Error: err.message });
+
+    if (updateResult.affectedRows === 0) {
+      return res.json({ Status: false, Error: "No matching leave request found." });
+    }
+
+    return res.json({ Status: true, Message: "Leave request rejected successfully!" });
+  });
+});
+
 
 
 // ✅ Fetch only approved leave requests
