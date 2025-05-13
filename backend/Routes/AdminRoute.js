@@ -267,11 +267,11 @@ router.get('/dashboard', (req, res) => {
 // Route: GET /auth/leaverequests
 router.get('/leaverequests', (req, res) => {
   const sql = `
-    SELECT a.id, e.name AS employee_name, a.start_date, a.end_date, a.reason, a.status, a.created_at
+    SELECT a.id, e.name AS employee_name, l.name AS leavetype_name
     FROM applyleave a
     JOIN employee e ON a.employee_id = e.id
-    WHERE a.created_at >= NOW() - INTERVAL 30 MINUTE
-    ORDER BY a.created_at DESC
+    JOIN leavetype l ON a.leavetype_id = l.id
+    WHERE a.status = 'pending' AND a.created_at >= NOW() - INTERVAL 30 MINUTE
   `;
 
   con.query(sql, (err, result) => {
