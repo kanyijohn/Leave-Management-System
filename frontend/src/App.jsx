@@ -24,6 +24,7 @@ import EmployeeHome from './Components/EmployeeHome'
 import EditLeaveRequest from './Components/EditLeaveRequest'
 import LeaveManagement from './Components/LeaveManagement'
 import Approve from './Components/Approve'
+import Reject from './Components/Reject'
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
           <Route path="edit_leavetype/:id" element={<EditLeaveType />} />
           <Route path="leavemanagement" element={<LeaveManagement />} />
           <Route path="approve" element={<Approve />} />
+          <Route path="reject" element={<Reject />} />
 
         </Route>
       </Routes>

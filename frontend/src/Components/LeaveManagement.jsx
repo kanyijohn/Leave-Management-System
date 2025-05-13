@@ -69,11 +69,15 @@ const LeaveManagement = () => {
     <div className="container mt-4">
       <h2 className="mb-4">Employee Leave Requests</h2>
 
-      {/* ✅ Navigation Button to Approved Leaves Page */}
-      <button className="btn btn-success mb-3" onClick={() => navigate('/dashboard/approve')}>
-        View Approved Leaves
-      </button>
-
+     {/* ✅ Navigation Buttons */}
+<div className="mb-3 d-flex gap-3">
+  <button className="btn btn-success" onClick={() => navigate('/dashboard/approve')}>
+    View Approved Leaves
+  </button>
+  <button className="btn btn-danger" onClick={() => navigate('/dashboard/reject')}>
+    View Rejected Leaves
+  </button>
+</div>
 
 
       <table className="table">
